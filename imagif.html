@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>the post generation station</title>
+    <link href="/dark.css" rel="stylesheet" type="text/css" media="all">
+  </head>
+  
+  <body>
+    <h1>Automatically fill out Imagif Hosters template</h1>
+    
+    <div id="start">
+      <input type="text" placeholder="Note (optional)" id="note">
+      <input type="text" placeholder="Link to image (u.cubeupload.com)" id="link">
+      
+      <button onclick='checkInputs();'>go!</button><br><br>
+      <a href="https://cubeupload.com" target="blank">(Open Cubeupload in new tab)</a>
+    </div>
+    
+    <div id="middle" style="display: none;">
+      <p>Click "Quote" on the original order, then paste this text below the quote.</p>
+      <textarea style='width: 50em; height: 10em;' onclick='this.select();' id="middleText" readonly></textarea><br><br>
+      <span>After that, paste a link to your post here: <input type="text" placeholder="Link to final post" id="post"> <button onclick='checkPost();'>go!</button></span>
+    </div>
+    
+    <div id="end" style="display: none;">
+      <p>Comment this on the profile of the user who originally ordered, and you're all done!</p>
+      <textarea style='width: 30em; height: 3em;' onclick='this.select();' id="endText" readonly></textarea><br><br>
+      <a href="">Click here to use this tool again.</a>
+    </div>
+    
+    <br>Or use the bump template:
+    <br><br><textarea style='width: 32em; height: 2em;' onclick='this.select();' readonly>[img=https://u.cubeupload.com/eason_9_lol/TIFBump.png]</textarea>
+    
+    <br><br><small>This webpage was made for use with <a href="https://scratch.mit.edu/discuss/topic/744125/">Imagif Hosters</a>, a Scratch forum shop.
+    <br>To view this webpage's source code, right-click and click "View Page Source"
+    <br><br><details><summary>Updates</summary><hr>
+    Update 1 (2024-11-11) - Original version<hr>
+    Update 2 (2024-11-16) - Made textareas read-only<hr>
+    Update 3 (2024-12-05) - Fixed appearance of bump template and rephrased some text
+    </details></small>
+    
+    <script>
+      function checkInputs() {
+        if ( document.querySelector("#link").value.indexOf('u.cubeupload.com') < 0 ) { alert("Please use a link that has 'u.cubeupload.com' in it.") } else { fillTemplate() }
+      }
+    
+      function fillTemplate() {
+        document.querySelector("#start").style.display = 'none';
+        document.querySelector("#middle").style.display = 'block';
+        
+        var input_note = document.querySelector("#note").value;
+        if ( input_note == "" ) { input_note = "Done! Thank you for using Imagif Hosters :)" }
+        
+        var input_link = document.querySelector("#link").value;
+        
+        document.querySelector("#middleText").innerHTML = `${input_note}\n\n` +
+        `[img]${input_link}[/img]\n\n` +
+        `[b]BBcode:[/b] (for forums)\n` +
+        `[code][img]${input_link}[/img][/code]\n` +
+        `[b]HTML:[/b] (for websites)\n` +
+        `[code=html]<img src="${input_link}" alt="Image">[/code]`;
+      }
+      
+      function checkPost() {
+        if ( document.querySelector("#post").value.indexOf('scratch.mit.edu/discuss/post/') < 0 ) {
+          alert("Please use a link that has 'scratch.mit.edu/discuss/post/' in it.");
+        } else {
+          document.querySelector("#middle").style.display = 'none';
+          document.querySelector("#end").style.display = 'block';
+          
+          var input_post = document.querySelector("#post").value;
+          
+          document.querySelector("#endText").innerHTML = `Your order from Imagif Hosters is complete! ${input_post}`;
+        }
+      }
+    </script>
+  </body>
+</html>

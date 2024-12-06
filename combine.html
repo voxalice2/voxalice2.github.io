@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>the combination station</title>
+    <link href="/dark.css" rel="stylesheet" type="text/css" media="all">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha512-XMVd28F1oH/O71fzwBnV7HucLxVwtxf26XV8P4wPk26EDxuGZ91N8bsOttmnomcCD3CS5ZMRL50H0GgOHvegtg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js" integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  </head>
+  
+  <body>
+    <h1>Add sprites and global data from Scratch project 2 to project 1</h1>
+    
+    <p><label for="project1">Project 1: </label>
+    <input type='file' id="project1" name="project1" accept=".sb3"></p>
+    
+    <p><label for="project2">Project 2: </label>
+    <input type='file' id="project2" name="project2" accept=".sb3"></p>
+    
+    <button onclick='loadProjects().then(combine);'>go!</button>
+    
+    <br><br><small><a href="https://stuk.github.io/jszip/">JSZip</a> is used to read .sb3 files,
+    and <a href="https://github.com/eligrey/FileSaver.js/">FileSaver.js</a> is used to save the output .sb3 file.
+    <br>To view this webpage's source code, right-click and click "View Page Source"
+    <br><br><details><summary>Updates</summary><hr>
+    Update 1 (2024-11-06) - Original version
+    </details></small>
+    
+    <script>
+      var projectZips = []; // projectZips[0] = Project 1, projectZips[1] = Project 2
+      var projectInfo = [];
+      var combinedInfo;
+      
+      async function loadProjects() {
+        file1 = document.getElementById("project1").files[0];
+        file2 = document.getElementById("project2").files[0];
+        
+        await JSZip.loadAsync(file1).then(function(zip) {
+          projectZips[0] = zip; // Project 1
+        }, function (e) {
+          alert("Oh no!!! Error!!!\n" + file1.name + "\n" + e.message);
+        });
+        
+        await JSZip.loadAsync(file2).then(function(zip) {
+          projectZips[1] = zip; // Project 2
+        }, function (e) {
+          alert("Oh no!!! Error!!!\n" + file2.name + "\n" + e.message);
+        });
+        
+        return true;
+      }
+      
+      async function getInfo() {
+        // Parse project.json for both projects and store the outputs in projectInfo
+        
+        await projectZips[0].file('project.json').async('string')
+          .then(out => projectInfo[0] = JSON.parse(out));
+        
+        await projectZips[1].file('project.json').async('string')
+          .then(out => projectInfo[1] = JSON.parse(out));
+          
+        return true;
+      }
+      
+      function combine() {
+        combinedZip = projectZips[0];
+
+        // Add files from projectZips[1] to combinedZip
+
+        projectZips[1].forEach(function (relativePath, zipEntry) {
+          if (zipEntry.name != "project.json") combinedZip.file(zipEntry.name, zipEntry._data, {binary: true});
+        });
+
+        // Add sprites and global data from project.json of projectZips[1] to project.json of combinedZip
+        
+        getInfo().then(function() {
+          combinedInfo = projectInfo[0];
+          
+          combinedInfo.targets[0].variables = {...projectInfo[0].targets[0].variables, ...projectInfo[1].targets[0].variables}; // Combine stage variables
+          combinedInfo.targets[0].lists = {...projectInfo[0].targets[0].lists, ...projectInfo[1].targets[0].lists}; // Combine stage lists
+          combinedInfo.targets[0].broadcasts = {...projectInfo[0].targets[0].broadcasts, ...projectInfo[1].targets[0].broadcasts}; // Combine stage broadcasts
+          
+          combinedInfo.targets = combinedInfo.targets.concat(projectInfo[1].targets.slice(1)); // Combine sprites
+          
+          combinedZip.file('project.json', JSON.stringify(combinedInfo)); // Save combined project.json to combinedZip
+
+          // Save combinedZip as local file
+
+          combinedZip.generateAsync({type:"blob"}).then(function (blob) {
+            saveAs(blob, "combined.sb3");
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>the translation station</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link href="/dark.css" rel="stylesheet" type="text/css" media="all">
+  </head>
+  
+  <body>
+    <script>
+    // This charset / alphabet is intentionally ordered from most common characters to least common characters to speed up reading
+    
+    charset = [" ","e","t","a","o","i","n","s","h","r","d","l","u","c","m","f","w","g","y","p","b","v","k","x","j","q","z","1","0","2","3","4","5","6","7","8","9",".","!","?",":",";","-","~","_",",","=","{","}","|","<",">","@","#","$","%","^","&","*","(",")","[","]"];
+    
+    function cache_now(id, num1, num2) {
+    
+    	// Generate a translation URL based on inputs
+    
+    	translation_value = id + "-data-" + num1 + "--" + num2 + "-";
+    
+    	t_url = "https://translate-service.scratch.mit.edu/translate?language=zh-tw&text=" + translation_value;
+    		
+    	// Request the translation URL
+    
+    	console.log(translation_value + '\n');
+    
+    	return $.get(t_url, function(response){
+    		console.log(response);
+    	});
+    
+    };
+    
+    // "cache_long()" converts its input into a sequence of 6-bit binary numbers, then calls "cache_now()" repeatedly to cache them
+    
+    function cache_long(input) {
+    		
+    	s = '111100'; // This fixes some corruption.
+    		
+    	for (let i = 0; i < input.length; i++) {
+    	  
+    		// Finds position of current character in charset and converts it to 6-bit binary
+    		s += (charset.indexOf(input.charAt(i))+1).toString(2).padStart(6, '0');
+    		
+    	}
+    		
+    	// Hides page elements
+    
+    	$("p").text("Please wait...")
+    		
+    	$("button").hide();
+    
+    	console.log("Cache_long called");
+    
+    	long_id = Math.floor(Date.now()/2000)+5; // Generate ID with Unix time
+    
+    	// Request a bunch of translation URLs at once, which caches a sequence of binary numbers that the Scratch project can decode to a string
+    
+    	var deferred_array = [];
+    
+    	deferred_array.push(cache_now(long_id, 0, 0));
+    
+    	for (let i = 0; i < s.length; i++) {
+    		if (s.charAt(i) == '0') {
+    			deferred_array.push(cache_now(long_id, i+1, 0));
+    		} else {
+    			console.log("Skipped: " + i);
+    		}
+    	}
+    		
+    	deferred_array.push(cache_now(long_id, s.length+1, "end")); // Mark end of string
+    	
+    	// Wait for all the requests to finish, then say "Done!"
+    
+    	$.when(...deferred_array).then(function(){
+    		
+    		console.log(deferred_array);
+    
+    		$("p").text('Done! Go back to the Scratch project!');
+    				
+    		$("button").show();
+    		
+    	});
+    
+    };
+    
+    // IF YOU'D LIKE TO USE THIS WEBSITE'S CODE IN YOUR OWN PROJECTS,
+    // INCLUDE THIS ENTIRE SCRIPT TAG AND CALL check_and_cache(str) TO SEND A STRING TO THE SCRATCH PROJECT.
+    // THIS WORKS ACROSS MULTIPLE DEVICES!
+    
+    // PLEASE MAKE SURE TO CREDIT VOXALICE AND THIS WEBSITE IF YOU USE ANY CODE HERE.
+    
+    function check_and_cache(str) {
+    
+    	if (/[^a-zA-Z0-9 .!?:;-~_,={}|<>@#$%^&*()[\]]/.test(str)) {
+    		
+    		console.warn("Invalid input!");
+    		alert('Oops! Looks like there are some invalid characters in your string.\n\nThe only special characters allowed are: \n.!?:;-~_,={}|<>@#$%^&*()[]');
+    		
+    	} else {
+    		
+    		if (str.length > 50) {
+    			
+    			alert("Please make your string less than 50 characters long.");
+    			
+    		} else {
+    			
+    			cache_long(str.toLowerCase());
+    			
+    		}
+    		
+    	}
+    
+    };
+    </script>
+    
+    <h1>Send data from website to Scratch project</h1>
+    <input type='text' placeholder='string' id='translate-cache-string'>
+    <button onclick='check_and_cache(document.querySelector("input").value);'>go!</button>
+    <p></p>
+    
+    <br><br><small><a href='//scratch.mit.edu/projects/972939317'>(link to Scratch project)</a> -- <a href="https://jquery.com/">JQuery</a> is used for HTTP requests and UI.<br>
+    To view this website's source code, right-click and click "View Page Source"
+    <br><br><details><summary>Updates</summary><hr>
+    Update 1 (2024-03-02) - Implemented data sending and receiving<br><hr>
+    Update 2 (2024-03-02) - Made receiving automatic (no button)<br><hr>
+    Update 3 (2024-03-03) - Fixed some corruption ( but not all of it :( )<br><hr>
+    Update 4 (2024-03-16) - Simplified bin2dec and fixed more corruption
+    </details></small>
+    
+    <script>console.clear();console.log($("h1").text());</script>
+  </body>
+</html>
