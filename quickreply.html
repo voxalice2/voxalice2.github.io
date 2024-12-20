@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>the post reiteration station</title>
+    <link href="/dark.css" rel="stylesheet" type="text/css" media="all">
+  </head>
+  
+  <body>
+    <h1>Personal Scratch forums QuickReply</h1>
+    
+    <div id="dataView"></div>
+    
+    <p id="textDisplay"><textarea style='width: 50em; height: 10em;'></textarea></p>
+    
+    <small>This webpage contains some of my most common responses to <a href="https://scratch.mit.edu/discuss/">Scratch forum topics</a>.
+    <br>To view this webpage's source code, <a href='https://github.com/voxalice2/voxalice2.github.io/blob/main/quickreply.html'>click here!</a>
+    <br><br><details><summary>Updates</summary><hr>
+    Update 1 (2024-12-20) - Original version
+    </details></small>
+    
+    <script>
+      // View data starts here
+    
+      var viewData = {
+        
+        // Root
+        
+        0: {"name": "Choose a forum:",
+            "text": false,
+            "data": [6, 1, 2]},
+            
+        6: {"name": "General (any forum)",
+            "text": false,
+            "data": [7, 8]},
+            
+        1: {"name": "Bugs and Glitches",
+            "text": false,
+            "data": [3, 4, 9, 12, 11]},
+            
+        2: {"name": "Suggestions",
+            "text": false,
+            "data": [5, 10]},
+            
+        // Bugs and Glitches
+            
+        3: {"name": "Search Engine Down",
+            "text": true,
+            "data": "[url=https://scratch.mit.edu/discuss/topic/790866/]Scratch's search engine is currently broken[/url], and all we can do is wait for it to be fixed.\n" +
+                    "Unfortunately, no one seems to know what's causing this bug or when it will be fixed.\n" +
+                    "This bug affects everyone on Scratch, so the Scratch Team is aware of this situation."},
+                    
+        4: {"name": "Search Engine Down (+ User Searching)",
+            "text": true,
+            "data": "[url=https://scratch.mit.edu/discuss/topic/790866/]Scratch's search engine is currently broken[/url], and all we can do is wait for it to be fixed.\n" +
+                    "Unfortunately, no one seems to know what's causing this bug or when it will be fixed.\n" +
+                    "This bug affects everyone on Scratch, so the Scratch Team is aware of this situation.\n\n" +
+                    "If you want to [url=https://en.scratch-wiki.info/wiki/How_do_I_search_for_a_user%3F]search for a user[/url], use a link like this:\n" +
+                    "[quote]https://scratch.mit.edu/users/USERNAME/[/quote]"},
+                    
+        9: {"name": "Cloud Variables Resetting",
+            "text": true,
+            "data": "If you own the project with the broken cloud variables, try renaming those variables.\n\n" +
+                    "If you don't own the project with the broken cloud variables, please ask the owner of that project to rename their cloud variables."},
+                    
+        12: {"name": "Cloud Variables Down",
+            "text": true,
+            "data": "Cloud variables are currently broken, and all we can do is wait for them to be fixed.\n" +
+                    "Unfortunately, no one seems to know what's causing issues or when they will be fixed.\n" +
+                    "This affects everyone on Scratch, so the Scratch Team is aware of the situation.\n\n" +
+                    "If you want to discuss cloud variable glitches, go here: https://scratch.mit.edu/discuss/topic/12949/"},
+                    
+        11: {"name": "Browser Information Instructions",
+            "text": true,
+            "data": "When replying, could you click the globe icon (to the right of the emoji) so we can see what device you're using?"},
+                    
+        // Suggestions
+        
+        5: {"name": "Duplicate Suggestion",
+            "text": true,
+            "data": "This is a duplicate of [url=LINKLINKLINK]an earlier suggestion[/url].\n" +
+                    "Please use the linked topic to keep the discussion all in one place :)\n\n" +
+                    "For future reference, you can use the [url=https://scratch.mit.edu/discuss/topic/657522/]Suggestions Directory[/url] or [url=https://ocular.jeffalo.net/]Ocular[/url] to check for duplicates."},
+                    
+        10: {"name": "Rejected Suggestion",
+            "text": true,
+            "data": "Unfortunately, this suggestion is rejected.\n\n" +
+                    "From [url=https://scratch.mit.edu/discuss/topic/343602/]The Official List of Rejected Suggestions[/url]:\n" +
+                    "[quote=Za-Chary]View source > find the rejected suggestion > paste it here[/quote]"},
+                    
+        // General
+        
+        7: {"name": "Duplicate Topic",
+            "text": true,
+            "data": "This is a duplicate of [url=LINKLINKLINK]an earlier topic[/url].\n" +
+                    "Please use the linked topic to keep the discussion all in one place :)\n\n" +
+                    "For future reference, you can use the third-party search engine [url=https://ocular.jeffalo.net/]Ocular[/url] to check for duplicates."},
+                    
+        8: {"name": "Topic Closing Instructions",
+            "text": true,
+            "data": "If you don't see a Close Topic button anywhere, you can just report the original post and ask the Scratch Team to close it in the textbox.\n\n" +
+                    "I'll do that for you right now. :)"},
+            
+      }
+      
+      // View data ends here
+    
+      var dataView = document.querySelector("#dataView");
+      var textDisplay = document.querySelector("#textDisplay");
+      var copier = document.querySelector("textarea");
+      
+      var viewHistory = [];
+      
+      function appendLink(id, name, back) {
+        linkElement = document.createElement("button");
+        linkElement.innerText = name ? name : viewData[id].name;
+        
+        if (back) {
+          linkElement.onclick = function() { viewHistory.pop(); displayView(viewHistory.at(-1)); viewHistory.pop(); };
+        } else {
+          linkElement.onclick = function() { displayView(id); };
+        }
+        
+        linkContainer = document.createElement("p");
+        linkContainer.append(linkElement);
+        dataView.append(linkContainer);
+      }
+      
+      function displayView(id) {
+        if (id == undefined) {id = 0}
+        console.log("Displaying data at ID " + id);
+        
+        dataView.innerHTML = "";
+        data = viewData[id];
+        
+        nameElement = document.createElement("h2");
+        nameElement.innerText = data.name;
+        dataView.append(nameElement);
+        
+        viewHistory.push(id);
+        if (id != 0) { appendLink(viewHistory.at(-2), "<= Back to previous page <=", true) }
+        
+        if (data.text) {
+          textDisplay.style.display = "block";
+          copier.innerHTML = data.data;
+        } else {
+          textDisplay.style.display = "none";
+          data.data.forEach((element) => appendLink(element, null, false));
+        }
+      }
+      
+      displayView(0, false);
+    </script>
+    
+    <script src="/stable.js"></script>
+  </body>
+</html>
