@@ -13,3 +13,6 @@ a { color: lightblue }
 h1 { margin-top: 0.4em }
 textarea { background: #222; font-family: monospace }
 details { padding: 0.5em; width: 35em }
+
+button:hover { background: #333 }
+button:active { background: #444 }
