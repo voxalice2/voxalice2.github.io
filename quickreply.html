@@ -10,12 +10,13 @@
     
     <div id="dataView"></div>
     
-    <p id="textDisplay"><textarea style='width: 50em; height: 10em;'></textarea></p>
+    <p id="textDisplay"><textarea style='width: 50em; height: 10em;' onclick='this.select()' readonly></textarea></p>
     
     <small>This webpage contains some of my most common responses to <a href="https://scratch.mit.edu/discuss/">Scratch forum topics</a>.
     <br>To view this webpage's source code, <a href='https://github.com/voxalice2/voxalice2.github.io/blob/main/quickreply.html'>click here!</a>
     <br><br><details><summary>Updates</summary><hr>
-    Update 1 (2024-12-20) - Original version
+    Update 1 (2024-12-20) - Original version<hr>
+    Update 2 (2024-12-21) - Fixed textboxes
     </details></small>
     
     <script>
@@ -47,13 +48,15 @@
             "text": true,
             "data": "[url=https://scratch.mit.edu/discuss/topic/790866/]Scratch's search engine is currently broken[/url], and all we can do is wait for it to be fixed.\n" +
                     "Unfortunately, no one seems to know what's causing this bug or when it will be fixed.\n" +
-                    "This bug affects everyone on Scratch, so the Scratch Team is aware of this situation."},
+                    "This bug affects everyone on Scratch, so the Scratch Team is aware of this situation.\n\n" +
+                    'For now, you can type "site:scratch.mit.edu [i](query)[/i]" into an external search engine to work around this bug.'},
                     
         4: {"name": "Search Engine Down (+ User Searching)",
             "text": true,
             "data": "[url=https://scratch.mit.edu/discuss/topic/790866/]Scratch's search engine is currently broken[/url], and all we can do is wait for it to be fixed.\n" +
                     "Unfortunately, no one seems to know what's causing this bug or when it will be fixed.\n" +
                     "This bug affects everyone on Scratch, so the Scratch Team is aware of this situation.\n\n" +
+                    'For now, you can type "site:scratch.mit.edu [i](query)[/i]" into an external search engine to work around this bug.\n\n' +
                     "If you want to [url=https://en.scratch-wiki.info/wiki/How_do_I_search_for_a_user%3F]search for a user[/url], use a link like this:\n" +
                     "[quote]https://scratch.mit.edu/users/USERNAME/[/quote]"},
                     
@@ -71,7 +74,7 @@
                     
         11: {"name": "Browser Information Instructions",
             "text": true,
-            "data": "When replying, could you click the globe icon (to the right of the emoji) so we can see what device you're using?"},
+            "data": "When replying, could you click the globe icon (to the right of the emoji) so we can see what device and browser you're using?"},
                     
         // Suggestions
         
