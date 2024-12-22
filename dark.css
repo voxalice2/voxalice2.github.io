@@ -9,7 +9,7 @@ body, input, button, details, textarea {
 
 body { border: 0 }
 small { font-size: 80% }
-a { color: lightblue }
+a { color: lightblue; text-decoration: underline; cursor: pointer }
 h1 { margin-top: 0.4em }
 textarea { background: #222; font-family: monospace }
 details { padding: 0.5em; width: 35em }
