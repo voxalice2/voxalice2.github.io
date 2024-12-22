@@ -8,15 +8,16 @@
   <body>
     <h1>Personal Scratch forums QuickReply</h1>
     
-    <div id="dataView"></div>
+    <div id="dataView">This webpage requires JavaScript.</div>
     
-    <p id="textDisplay"><textarea style='width: 50em; height: 10em;' onclick='this.select()' readonly></textarea></p>
+    <p style="display: none;" id="textDisplay"><textarea style='width: 50em; height: 10em;' onclick='this.select()' readonly></textarea></p>
     
     <small>This webpage contains some of my most common responses to <a href="https://scratch.mit.edu/discuss/">Scratch forum topics</a>.
     <br>To view this webpage's source code, <a href='https://github.com/voxalice2/voxalice2.github.io/blob/main/quickreply.html'>click here!</a>
     <br><br><details><summary>Updates</summary><hr>
     Update 1 (2024-12-20) - Original version<hr>
-    Update 2 (2024-12-21) - Fixed textboxes
+    Update 2 (2024-12-21) - Fixed textboxes<hr>
+    Update 3 (2024-12-22) - Added invisible items, <a onclick='displayView("test")'>test items</a>, and a JavaScript-disabled warning
     </details></small>
     
     <script>
@@ -28,24 +29,29 @@
         
         0: {"name": "Choose a forum:",
             "text": false,
-            "data": [6, 1, 2]},
+            "hidden": false,
+            "data": [6, 1, 2, "test"]},
             
         6: {"name": "General (any forum)",
             "text": false,
+            "hidden": false,
             "data": [7, 8]},
             
         1: {"name": "Bugs and Glitches",
             "text": false,
+            "hidden": false,
             "data": [3, 4, 9, 12, 11]},
             
         2: {"name": "Suggestions",
             "text": false,
+            "hidden": false,
             "data": [5, 10]},
             
         // Bugs and Glitches
             
         3: {"name": "Search Engine Down",
             "text": true,
+            "hidden": false,
             "data": "[url=https://scratch.mit.edu/discuss/topic/790866/]Scratch's search engine is currently broken[/url], and all we can do is wait for it to be fixed.\n" +
                     "Unfortunately, no one seems to know what's causing this bug or when it will be fixed.\n" +
                     "This bug affects everyone on Scratch, so the Scratch Team is aware of this situation.\n\n" +
@@ -53,6 +59,7 @@
                     
         4: {"name": "Search Engine Down (+ User Searching)",
             "text": true,
+            "hidden": false,
             "data": "[url=https://scratch.mit.edu/discuss/topic/790866/]Scratch's search engine is currently broken[/url], and all we can do is wait for it to be fixed.\n" +
                     "Unfortunately, no one seems to know what's causing this bug or when it will be fixed.\n" +
                     "This bug affects everyone on Scratch, so the Scratch Team is aware of this situation.\n\n" +
@@ -62,11 +69,13 @@
                     
         9: {"name": "Cloud Variables Resetting",
             "text": true,
+            "hidden": false,
             "data": "If you own the project with the broken cloud variables, try renaming those variables.\n\n" +
                     "If you don't own the project with the broken cloud variables, please ask the owner of that project to rename their cloud variables."},
                     
         12: {"name": "Cloud Variables Down",
             "text": true,
+            "hidden": false,
             "data": "Cloud variables are currently broken, and all we can do is wait for them to be fixed.\n" +
                     "Unfortunately, no one seems to know what's causing issues or when they will be fixed.\n" +
                     "This affects everyone on Scratch, so the Scratch Team is aware of the situation.\n\n" +
@@ -74,34 +83,71 @@
                     
         11: {"name": "Browser Information Instructions",
             "text": true,
-            "data": "When replying, could you click the globe icon (to the right of the emoji) so we can see what device and browser you're using?"},
+            "hidden": false,
+            "data": "When replying, could you click the globe icon (to the right of the emoji) to show what device and browser you're using?"},
                     
         // Suggestions
         
         5: {"name": "Duplicate Suggestion",
             "text": true,
-            "data": "This is a duplicate of [url=LINKLINKLINK]an earlier suggestion[/url].\n" +
+            "hidden": false,
+            "data": "This is a duplicate of [url=LINK_LINK_LINK]an earlier suggestion[/url].\n" +
                     "Please use the linked topic to keep the discussion all in one place :)\n\n" +
                     "For future reference, you can use the [url=https://scratch.mit.edu/discuss/topic/657522/]Suggestions Directory[/url] or [url=https://ocular.jeffalo.net/]Ocular[/url] to check for duplicates."},
                     
         10: {"name": "Rejected Suggestion",
             "text": true,
+            "hidden": false,
             "data": "Unfortunately, this suggestion is rejected.\n\n" +
                     "From [url=https://scratch.mit.edu/discuss/topic/343602/]The Official List of Rejected Suggestions[/url]:\n" +
-                    "[quote=Za-Chary]View source > find the rejected suggestion > paste it here[/quote]"},
+                    "[quote=Za-Chary]View_source_then_find_the_rejected_suggestion_then_paste_it_here[/quote]"},
                     
         // General
         
         7: {"name": "Duplicate Topic",
             "text": true,
-            "data": "This is a duplicate of [url=LINKLINKLINK]an earlier topic[/url].\n" +
+            "hidden": false,
+            "data": "This is a duplicate of [url=LINK_LINK_LINK]an earlier topic[/url].\n" +
                     "Please use the linked topic to keep the discussion all in one place :)\n\n" +
                     "For future reference, you can use the third-party search engine [url=https://ocular.jeffalo.net/]Ocular[/url] to check for duplicates."},
                     
         8: {"name": "Topic Closing Instructions",
             "text": true,
+            "hidden": false,
             "data": "If you don't see a Close Topic button anywhere, you can just report the original post and ask the Scratch Team to close it in the textbox.\n\n" +
                     "I'll do that for you right now. :)"},
+                    
+        // Testing
+        
+        "test": {"name": "> TESTING <",
+            "text": false,
+            "hidden": true,
+            "data": ["test", 14, 15, Math.imul(3, 5) + 1, 17, 18, 0]},
+        
+        14: {"name": "Hidden item 1",
+            "text": true,
+            "hidden": true,
+            "data": "HELLO WORLD"},
+                    
+        15: {"name": "Hidden item 2!",
+            "text": false,
+            "hidden": true,
+            "data": [1, 2, 3]},
+            
+        16: {"name": "Invalid content 1",
+            "text": false,
+            "hidden": false,
+            "data": "Wow"},
+            
+        17: {"name": "Invalid content 2",
+            "text": true,
+            "hidden": false,
+            "data": [1, 2, 3]},
+            
+        18: {"name": "Invalid content 3!",
+            "text": false,
+            "hidden": false,
+            "data": true},
             
       }
       
@@ -118,36 +164,37 @@
         linkElement.innerText = name ? name : viewData[id].name;
         
         if (back) {
-          linkElement.onclick = function() { viewHistory.pop(); displayView(viewHistory.at(-1)); viewHistory.pop(); };
+          linkElement.onclick = function() { viewHistory.pop(); displayView(viewHistory.pop()); };
         } else {
           linkElement.onclick = function() { displayView(id); };
         }
         
         linkContainer = document.createElement("p");
         linkContainer.append(linkElement);
-        dataView.append(linkContainer);
+        if (!viewData[id].hidden) { dataView.append(linkContainer); }
       }
       
       function displayView(id) {
-        if (id == undefined) {id = 0}
-        console.log("Displaying data at ID " + id);
+        if (id == undefined) { id = 0; }
         
         dataView.innerHTML = "";
         data = viewData[id];
+        
+        console.log("Displaying data at ID " + id, data);
         
         nameElement = document.createElement("h2");
         nameElement.innerText = data.name;
         dataView.append(nameElement);
         
         viewHistory.push(id);
-        if (id != 0) { appendLink(viewHistory.at(-2), "<= Back to previous page <=", true) }
+        if (viewHistory.length > 1) { appendLink(0, "<= Back to previous page <=", true); }
         
         if (data.text) {
           textDisplay.style.display = "block";
-          copier.innerHTML = data.data;
+          copier.innerHTML = data.data.toString();
         } else {
           textDisplay.style.display = "none";
-          data.data.forEach((element) => appendLink(element, null, false));
+          if (typeof data.data == "object") { data.data.forEach((element) => appendLink(element, null, false)); }
         }
       }
       
