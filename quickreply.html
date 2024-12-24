@@ -11,13 +11,15 @@
     <div id="dataView">This webpage requires JavaScript.</div>
     
     <p style="display: none;" id="textDisplay"><textarea style='width: 50em; height: 10em;' onclick='this.select()' readonly></textarea></p>
+    <p style="display: none;" id="textEditable">Replace "__EDITABLE__" with: <input type="text" id="editBox" placeholder="Replacement" onchange="replaceEditable(this.value)"></p>
     
     <small>This webpage contains some of my most common responses to <a href="https://scratch.mit.edu/discuss/">Scratch forum topics</a>.
     <br>To view this webpage's source code, <a href='https://github.com/voxalice2/voxalice2.github.io/blob/main/quickreply.html'>click here!</a>
     <br><br><details><summary>Updates</summary><hr>
     Update 1 (2024-12-20) - Original version<hr>
     Update 2 (2024-12-21) - Fixed textboxes<hr>
-    Update 3 (2024-12-22) - Added invisible items, <a onclick='displayView("test")'>test items</a>, and a JavaScript-disabled warning
+    Update 3 (2024-12-22) - Added invisible items, <a onclick='displayView("test")'>test items</a>, and a JavaScript-disabled warning<hr>
+    Update 4 (2024-12-23) - Added editable items
     </details></small>
     
     <script>
@@ -30,7 +32,7 @@
         0: {"name": "Choose a forum:",
             "text": false,
             "hidden": false,
-            "data": [6, 1, 2, "test"]},
+            "data": ["test", 6, 1, 2, 19, 20]},
             
         6: {"name": "General (any forum)",
             "text": false,
@@ -47,22 +49,34 @@
             "hidden": false,
             "data": [5, 10]},
             
+        19: {"name": "Things I'm Making and Creating",
+            "text": false,
+            "hidden": false,
+            "data": [21]},
+            
+        20: {"name": "Things I'm Reading and Playing",
+            "text": false,
+            "hidden": false,
+            "data": [22]},
+            
         // Bugs and Glitches
             
         3: {"name": "Search Engine Down",
             "text": true,
             "hidden": false,
+            "editable": false,
             "data": "[url=https://scratch.mit.edu/discuss/topic/790866/]Scratch's search engine is currently broken[/url], and all we can do is wait for it to be fixed.\n" +
-                    "Unfortunately, no one seems to know what's causing this bug or when it will be fixed.\n" +
-                    "This bug affects everyone on Scratch, so the Scratch Team is aware of this situation.\n\n" +
+                    "Unfortunately, no one seems to know what's causing issues or when they will be fixed.\n" +
+                    "This affects everyone on Scratch, so the Scratch Team is aware of the situation.\n\n" +
                     'For now, you can type "site:scratch.mit.edu [i](query)[/i]" into an external search engine to work around this bug.'},
                     
         4: {"name": "Search Engine Down (+ User Searching)",
             "text": true,
             "hidden": false,
+            "editable": false,
             "data": "[url=https://scratch.mit.edu/discuss/topic/790866/]Scratch's search engine is currently broken[/url], and all we can do is wait for it to be fixed.\n" +
-                    "Unfortunately, no one seems to know what's causing this bug or when it will be fixed.\n" +
-                    "This bug affects everyone on Scratch, so the Scratch Team is aware of this situation.\n\n" +
+                    "Unfortunately, no one seems to know what's causing issues or when they will be fixed.\n" +
+                    "This affects everyone on Scratch, so the Scratch Team is aware of the situation.\n\n" +
                     'For now, you can type "site:scratch.mit.edu [i](query)[/i]" into an external search engine to work around this bug.\n\n' +
                     "If you want to [url=https://en.scratch-wiki.info/wiki/How_do_I_search_for_a_user%3F]search for a user[/url], use a link like this:\n" +
                     "[quote]https://scratch.mit.edu/users/USERNAME/[/quote]"},
@@ -70,12 +84,14 @@
         9: {"name": "Cloud Variables Resetting",
             "text": true,
             "hidden": false,
+            "editable": false,
             "data": "If you own the project with the broken cloud variables, try renaming those variables.\n\n" +
                     "If you don't own the project with the broken cloud variables, please ask the owner of that project to rename their cloud variables."},
                     
         12: {"name": "Cloud Variables Down",
             "text": true,
             "hidden": false,
+            "editable": false,
             "data": "Cloud variables are currently broken, and all we can do is wait for them to be fixed.\n" +
                     "Unfortunately, no one seems to know what's causing issues or when they will be fixed.\n" +
                     "This affects everyone on Scratch, so the Scratch Team is aware of the situation.\n\n" +
@@ -84,6 +100,7 @@
         11: {"name": "Browser Information Instructions",
             "text": true,
             "hidden": false,
+            "editable": false,
             "data": "When replying, could you click the globe icon (to the right of the emoji) to show what device and browser you're using?"},
                     
         // Suggestions
@@ -91,13 +108,15 @@
         5: {"name": "Duplicate Suggestion",
             "text": true,
             "hidden": false,
-            "data": "This is a duplicate of [url=LINK_LINK_LINK]an earlier suggestion[/url].\n" +
+            "editable": true,
+            "data": "This is a duplicate of [url=__EDITABLE__]an earlier suggestion[/url].\n" +
                     "Please use the linked topic to keep the discussion all in one place :)\n\n" +
                     "For future reference, you can use the [url=https://scratch.mit.edu/discuss/topic/657522/]Suggestions Directory[/url] or [url=https://ocular.jeffalo.net/]Ocular[/url] to check for duplicates."},
                     
         10: {"name": "Rejected Suggestion",
             "text": true,
             "hidden": false,
+            "editable": false,
             "data": "Unfortunately, this suggestion is rejected.\n\n" +
                     "From [url=https://scratch.mit.edu/discuss/topic/343602/]The Official List of Rejected Suggestions[/url]:\n" +
                     "[quote=Za-Chary]View_source_then_find_the_rejected_suggestion_then_paste_it_here[/quote]"},
@@ -107,22 +126,42 @@
         7: {"name": "Duplicate Topic",
             "text": true,
             "hidden": false,
-            "data": "This is a duplicate of [url=LINK_LINK_LINK]an earlier topic[/url].\n" +
+            "editable": true,
+            "data": "This is a duplicate of [url=__EDITABLE__]an earlier topic[/url].\n" +
                     "Please use the linked topic to keep the discussion all in one place :)\n\n" +
                     "For future reference, you can use the third-party search engine [url=https://ocular.jeffalo.net/]Ocular[/url] to check for duplicates."},
                     
         8: {"name": "Topic Closing Instructions",
             "text": true,
             "hidden": false,
+            "editable": false,
             "data": "If you don't see a Close Topic button anywhere, you can just report the original post and ask the Scratch Team to close it in the textbox.\n\n" +
                     "I'll do that for you right now. :)"},
+                    
+        // Things I'm [...]
+        
+        21: {"name": "Duplicate Topic (Things I'm Making and Creating)",
+            "text": true,
+            "hidden": false,
+            "editable": true,
+            "data": "This is a duplicate of [url=__EDITABLE__]an earlier topic[/url].\n" +
+                    "Please use the linked topic to keep the discussion all in one place :)\n\n" +
+                    "For future reference, you can use the [url=https://scratch.mit.edu/discuss/topic/776027/]Things I'm Making and Creating Directory[/url] or [url=https://ocular.jeffalo.net/]Ocular[/url] to check for duplicates."},
+                    
+        22: {"name": "Duplicate Topic (Things I'm Reading and Playing)",
+            "text": true,
+            "hidden": false,
+            "editable": true,
+            "data": "This is a duplicate of [url=__EDITABLE__]an earlier topic[/url].\n" +
+                    "Please use the linked topic to keep the discussion all in one place :)\n\n" +
+                    "For future reference, you can use the [url=https://scratch.mit.edu/discuss/topic/735680/]Things I'm Reading and Playing Topic Directory[/url] or [url=https://ocular.jeffalo.net/]Ocular[/url] to check for duplicates."},
                     
         // Testing
         
         "test": {"name": "> TESTING <",
             "text": false,
             "hidden": true,
-            "data": ["test", 14, 15, Math.imul(3, 5) + 1, 17, 18, 0]},
+            "data": ["this page doesn't exist", "test", 14, 15, Math.imul(3, 5) + 1, 17, 18, 0]},
         
         14: {"name": "Hidden item 1",
             "text": true,
@@ -152,12 +191,14 @@
       }
       
       // View data ends here
-    
+      
       var dataView = document.querySelector("#dataView");
       var textDisplay = document.querySelector("#textDisplay");
+      var textEditable = document.querySelector("#textEditable");
       var copier = document.querySelector("textarea");
       
       var viewHistory = [];
+      var viewing;
       
       function appendLink(id, name, back) {
         linkElement = document.createElement("button");
@@ -176,6 +217,7 @@
       
       function displayView(id) {
         if (id == undefined) { id = 0; }
+        viewing = id;
         
         dataView.innerHTML = "";
         data = viewData[id];
@@ -189,13 +231,29 @@
         viewHistory.push(id);
         if (viewHistory.length > 1) { appendLink(0, "<= Back to previous page <=", true); }
         
+        textEditable.style.display = "none";
+        document.querySelector("#editBox").value = "";
         if (data.text) {
           textDisplay.style.display = "block";
           copier.innerHTML = data.data.toString();
+          
+          if (data.editable) {
+            textEditable.style.display = "block";
+          }
         } else {
           textDisplay.style.display = "none";
-          if (typeof data.data == "object") { data.data.forEach((element) => appendLink(element, null, false)); }
+          if (typeof data.data == "object") {
+            data.data.forEach((element) => {
+              try { appendLink(element, null, false) }
+              catch (exception) { console.error(exception) }
+            });
+          }
         }
+      }
+      
+      function replaceEditable(edit) {
+        if (edit == "") { edit = "__EDITABLE__"; }
+        copier.innerHTML = viewData[viewing].data.toString().replace("__EDITABLE__", edit);
       }
       
       displayView(0, false);
