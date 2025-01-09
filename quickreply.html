@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>the post generation station</title>
+    <title>the post reiteration station</title>
     <link href="/dark.css" rel="stylesheet" type="text/css" media="all">
   </head>
   
@@ -18,6 +18,7 @@
     <p style="display: none;" id="rejectedChooser">
       <a href="https://scratch.mit.edu/discuss/topic/343602/" target="blank">Open The Official List of Rejected Suggestions in a new tab</a>, find the relevant suggestion, then type its number here.
       <br><br><input type="text" id="rejectedNumber" placeholder="X.Y"> <button onclick='quoteRejected(document.querySelector("#rejectedNumber").value.toString())'>Quote</button>
+      <small> - Clicking "Quote" will make a request to scratch.mit.edu.</small>
     </p>
     
     <small>This webpage contains some of my most common responses to <a href="https://scratch.mit.edu/discuss/">Scratch forum topics</a>.
@@ -28,7 +29,8 @@
     Update 3 (2024-12-22) - Added invisible items, <a onclick='displayView("test")'>test items</a>, and a JavaScript-disabled warning<hr>
     Update 4 (2024-12-23) - Added editable items<hr>
     Update 5 (2025-01-01) - Added function items, including a built-in quoter for The Official List of Rejected Suggestions<hr>
-    Update 6 (2025-01-05) - Fixed issues with scraping rejected suggestions, and cleaned up some code
+    Update 6 (2025-01-05) - Fixed issues with scraping rejected suggestions, and cleaned up some code<hr>
+    Update 7 (2025-01-08) - Fixed title (this page originally shared a title with <a href="/imagif">/imagif</a>)
     </details></small>
     
     <script>
@@ -43,12 +45,12 @@
         0: {"name": "Choose a forum:",
             "text": false,
             "hidden": false,
-            "data": ["test", 6, 1, 2, 19, 20]},
+            "data": [6, 1, 2, 19, 20, 25]},
             
         6: {"name": "General (any forum)",
             "text": false,
             "hidden": false,
-            "data": [7, 8, 23]},
+            "data": ["test", 7, 8, 23]},
             
         1: {"name": "Bugs and Glitches",
             "text": false,
@@ -70,6 +72,11 @@
             "hidden": false,
             "data": [22]},
             
+        25: {"name": "Questions about Scratch",
+            "text": false,
+            "hidden": false,
+            "data": [26]},
+            
         // Bugs and Glitches
             
         3: {"name": "Search Engine Down",
@@ -78,18 +85,16 @@
             "editable": false,
             "data": "[url=https://scratch.mit.edu/discuss/topic/790866/]Scratch's search engine is currently broken[/url], and all we can do is wait for it to be fixed.\n" +
                     "Unfortunately, no one seems to know what's causing issues or when they will be fixed.\n" +
-                    "This affects everyone on Scratch, so the Scratch Team is aware of the situation.\n\n" +
-                    'For now, you can type "site:scratch.mit.edu [i](query)[/i]" into an external search engine to work around this bug.'},
+                    "This affects everyone on Scratch, so the Scratch Team is aware of the situation.\n\n" /**/ +
+                    'For now, you can type "site:scratch.mit.edu [i](search query)[/i]" into a search engine like Google to work around this bug.\n\n' +
+                    "This also affects the Explore page, since that's internally based on Scratch's search engine."
+                    },
                     
-        4: {"name": "Search Engine Down (+ User Searching)",
+        4: {"name": "Search Engine Down (+ User Searching Instructions)",
             "text": true,
             "hidden": false,
             "editable": false,
-            "data": "[url=https://scratch.mit.edu/discuss/topic/790866/]Scratch's search engine is currently broken[/url], and all we can do is wait for it to be fixed.\n" +
-                    "Unfortunately, no one seems to know what's causing issues or when they will be fixed.\n" +
-                    "This affects everyone on Scratch, so the Scratch Team is aware of the situation.\n\n" +
-                    'For now, you can type "site:scratch.mit.edu [i](query)[/i]" into an external search engine to work around this bug.\n\n' +
-                    "If you want to [url=https://en.scratch-wiki.info/wiki/How_do_I_search_for_a_user%3F]search for a user[/url], use a link like this:\n" +
+            "data": "If you want to [url=https://en.scratch-wiki.info/wiki/How_do_I_search_for_a_user%3F]search for a user[/url], use a link like this: " +
                     "[quote]https://scratch.mit.edu/users/USERNAME/[/quote]"},
                     
         9: {"name": "Cloud Variables Resetting",
@@ -117,9 +122,12 @@
             "text": true,
             "hidden": false,
             "editable": false,
-            "data": 'When you get to the Community Guidelines page, try selecting everything with the key combo Ctrl+A.\n\n' +
-                    'That should make a blue box appear near the bottom-right corner of the screen, which you can then click to progress.\n\n' +
-                    'Once you click "I Agree", you [i]will[/i] be a Scratcher, even if nothing seems to happen.'},
+            "data": 'When you get to the Community Guidelines page, try selecting everything with the key combo Ctrl+A.\n' +
+                    "(If you don't have a keyboard, look up how to select everything on the page and try that instead.)\n\n" +
+                    'That should make a blue box appear near the bottom-right corner of the page, which you can use to progress.\n\n' +
+                    '[img]https://u.cubeupload.com/rosics/Screenshot2025010420.png[/img][small]Screenshot taken by [url=https://scratch.mit.edu/users/Rosics]@Rosics[/url][/small]\n\n' +
+                    "If that doesn't work, just keep clicking in the bottom-right corner of the page.\n\n" +
+                    'Once you press the "I Agree" button, you [i]will[/i] be a Scratcher, even if nothing seems to happen.'},
                     
         // Suggestions
         
@@ -166,7 +174,8 @@
             "text": true,
             "hidden": false,
             "editable": false,
-            "data": "Welcome to the forums! Check out the Sticky topics in [url=https://scratch.mit.edu/discuss/6/]the New Scratchers forum[/url] for guidance."},
+            "data": "Welcome to the forums! Check out the Sticky topics in [url=https://scratch.mit.edu/discuss/6/]the New Scratchers forum[/url] for guidance.\n" +
+                    "(See more information at the Scratch Wiki: [wiki]Discussion Forums[/wiki])"},
                     
         // Things I'm [...]
         
@@ -185,6 +194,15 @@
             "data": "This is a duplicate of [url=__EDITABLE__]an earlier topic[/url].\n" +
                     "Please use the linked topic to keep the discussion all in one place :)\n\n" +
                     "For future reference, you can use the [url=https://scratch.mit.edu/discuss/topic/735680/]Things I'm Reading and Playing Topic Directory[/url] or [url=https://ocular.jeffalo.net/]Ocular[/url] to check for duplicates."},
+                        
+        // Questions about Scratch
+        
+        26: {"name": "4.0 Release Date",
+            "text": true,
+            "hidden": false,
+            "data": "No one knows when Scratch 4.0 will be released, not even the Scratch Team.\n\n" +
+                    "Scratch 4.0 is supposed to start development in 2025, but its release date is still a mystery.\n\n" +
+                    "Let's wait for more information on Scratch 4.0 before trying to find out when it will release."},
                     
         // Testing
         
@@ -211,7 +229,8 @@
         17: {"name": "Invalid content 2",
             "text": true,
             "hidden": false,
-            "data": [1, 2, 3]},
+            "editable": true,
+            "data": [1, 2, "__EDITABLE__", 4, 5]},
             
         18: {"name": "Invalid content 3!",
             "text": false,
@@ -224,6 +243,8 @@
             "function": 'dataView.insertAdjacentHTML("beforeend",`<p><input type="text" placeholder="Item name" id="itemname"> <button onclick="displayView(document.querySelector(\'#itemname\').value)">Go</button></p>`)'},
             
       }
+      
+      viewData[4].data = viewData[3].data + "\n\n" + viewData[4].data; // Add "Search Engine Down" to "Search Engine Down (+ User Searching Instructions)"
       
       // View data ends here
       
@@ -342,37 +363,31 @@
       }
       
       function quoteRejected(rejectedNumber) {
-        var requestConfirmed;
-        if (rejectedData == "") {requestConfirmed = confirm("This action will make a request to scratch.mit.edu.")} // If rejected suggestions data has not already been fetched
-        else {requestConfirmed = true}
-        
-        if (requestConfirmed) {
-          show(rejectedLoading);
-          hide(rejectedChooser);
+        show(rejectedLoading);
+        hide(rejectedChooser);
           
-          getRejected().then((good) => {
-            if (good) {
-              hide(rejectedLoading);
-              var rejectedQuote = "";
+        getRejected().then((good) => {
+          if (good) {
+            hide(rejectedLoading);
+            var rejectedQuote = "";
               
-              // Attempt to find rejected suggestion text, and alert if not found
+            // Attempt to find rejected suggestion text, and alert if not found
 
-              var quoteDelimiter = (parseFloat(rejectedNumber) > 0) ? ("[b]" + rejectedNumber + " ") : null;
-              try { rejectedQuote = (quoteDelimiter + rejectedData.split(quoteDelimiter)[1].split("[b")[0]).trim(); } // Find text between "[b]X.Y " and "[b]"
-              catch (e) { console.error(e.message); show(rejectedChooser); alert("That doesn't seem to be a valid suggestion number. Check for typos."); }
+            var quoteDelimiter = (parseFloat(rejectedNumber) > 0) ? ("[b]" + rejectedNumber + " ") : null;
+            try { rejectedQuote = (quoteDelimiter + rejectedData.split(quoteDelimiter)[1].split("[b")[0]).trim(); } // Find text between "[b]X.Y " and "[b]"
+            catch (e) { console.error(e.message); show(rejectedChooser); alert("That doesn't seem to be a valid suggestion number. Check for typos."); }
               
-              if (rejectedQuote != "") {
-                hide(textEditable);
-                hide(rejectedChooser);
+            if (rejectedQuote != "") {
+              hide(textEditable);
+              hide(rejectedChooser);
                 
-                show(textDisplay);
-                setCopier("Unfortunately, this suggestion may be rejected.\n\n" +
-                          "From [url=https://scratch.mit.edu/discuss/topic/343602/]The Official List of Rejected Suggestions[/url]:\n" +
-                          "[quote=Za-Chary]" + rejectedQuote + "[/quote]");
-              }
-            } else { rejected(); }
-          })
-        }
+              show(textDisplay);
+              setCopier("Unfortunately, this suggestion may be rejected.\n\n" +
+                        "From [url=https://scratch.mit.edu/discuss/topic/343602/]The Official List of Rejected Suggestions[/url]:\n" +
+                        "[quote=Za-Chary]" + rejectedQuote + "[/quote]");
+            }
+          } else { rejected(); }
+        })
       }
     </script>
     
