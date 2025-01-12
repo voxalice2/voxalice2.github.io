@@ -1,7 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
   <head>
     <title>the post reiteration station</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Voxalice">
+    <meta name="description" content="This webpage contains some of my most common responses to Scratch forum topics.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link href="/dark.css" rel="stylesheet" type="text/css" media="all">
   </head>
   
@@ -11,7 +16,7 @@
     <h2 id="displayName">This webpage requires JavaScript.</h2>
     <div id="dataView"></div>
     
-    <p style="display: none;" id="textDisplay"><textarea style='width: 50em; height: 10em;' id="copier" onclick='this.select()' readonly></textarea></p>
+    <p style="display: none;" id="textDisplay"><textarea style='width: 50em; height: 10em; max-width: 95%;' id="copier" onclick='this.select()' readonly></textarea></p>
     <p style="display: none;" id="textEditable">Replace "__EDITABLE__" with: <input type="text" id="editBox" placeholder="Replacement" onchange="replaceEditable(this.value)"></p>
     
     <p style="display: none;" id="rejectedLoading">Fetching rejected suggestions...</p>
@@ -30,7 +35,8 @@
     Update 4 (2024-12-23) - Added editable items<hr>
     Update 5 (2025-01-01) - Added function items, including a built-in quoter for The Official List of Rejected Suggestions<hr>
     Update 6 (2025-01-05) - Fixed issues with scraping rejected suggestions, and cleaned up some code<hr>
-    Update 7 (2025-01-08) - Fixed title (this page originally shared a title with <a href="/imagif">/imagif</a>)
+    Update 7 (2025-01-08) - Fixed title (this page originally shared a title with <a href="/imagif">/imagif</a>)<hr>
+    Update 8 (2025-01-11) - Add page metadata
     </details></small>
     
     <script>
@@ -55,12 +61,12 @@
         1: {"name": "Bugs and Glitches",
             "text": false,
             "hidden": false,
-            "data": [3, 4, 9, 12, 11, 24]},
+            "data": [3, 4, 9, 12, 11, 24, 28]},
             
         2: {"name": "Suggestions",
             "text": false,
             "hidden": false,
-            "data": [5, 10]},
+            "data": [5, 10, 27]},
             
         19: {"name": "Things I'm Making and Creating",
             "text": false,
@@ -83,11 +89,12 @@
             "text": true,
             "hidden": false,
             "editable": false,
-            "data": "[url=https://scratch.mit.edu/discuss/topic/790866/]Scratch's search engine is currently broken[/url], and all we can do is wait for it to be fixed.\n" +
-                    "Unfortunately, no one seems to know what's causing issues or when they will be fixed.\n" +
-                    "This affects everyone on Scratch, so the Scratch Team is aware of the situation.\n\n" /**/ +
-                    'For now, you can type "site:scratch.mit.edu [i](search query)[/i]" into a search engine like Google to work around this bug.\n\n' +
-                    "This also affects the Explore page, since that's internally based on Scratch's search engine."
+            "data": "[url=https://scratch.mit.edu/discuss/topic/795087/]Scratch's search engine is currently broken[/url], and all we can do is wait for it to be fixed.\n" +
+                    "Unfortunately, no one knows when this will be fixed or how to fix it.\n" +
+                    "This affects everyone on Scratch, so the Scratch Team is aware of the situation.\n\n" +
+                    'For now, you can type "site:scratch.mit.edu [i](search query)[/i]" into a search engine like Google to work around this bug.\n' +
+                    'You should also discuss the bug here: https://scratch.mit.edu/discuss/topic/790866/\n\n' +
+                    "This also affects [url=https://scratch.mit.edu/explore/projects/all]the Explore page[/url], since that's internally based on Scratch's search engine."
                     },
                     
         4: {"name": "Search Engine Down (+ User Searching Instructions)",
@@ -110,7 +117,7 @@
             "editable": false,
             "data": "Cloud variables are currently broken, and all we can do is wait for them to be fixed.\n" +
                     "Unfortunately, no one seems to know what's causing issues or when they will be fixed.\n" +
-                    "This affects everyone on Scratch, so the Scratch Team is aware of the situation."},
+                    "This affects every Scratcher, so the Scratch Team is aware of the situation."},
                     
         11: {"name": "Browser Information Instructions",
             "text": true,
@@ -129,13 +136,19 @@
                     "If that doesn't work, just keep clicking in the bottom-right corner of the page.\n\n" +
                     'Once you press the "I Agree" button, you [i]will[/i] be a Scratcher, even if nothing seems to happen.'},
                     
+        28: {"name": "Search Engine Down (Japanese)",
+            "text": true,
+            "hidden": false,
+            "editable": false,
+            "data": "この投稿は Google 翻訳を使用して翻訳されました。間違いがあればお知らせください。\n\n---\n\n[url=https://scratch.mit.edu/discuss/topic/790866/]Scratch の検索エンジンは現在壊れています[/url]。私たちにできることは修正されるのを待つことだけです。\n残念ながら、何が問題を引き起こしているのか、いつ修正されるのかは誰も分からないようです。\nこれは Scratch の全員に影響するため、Scratch チームは状況を認識しています。\n\n現時点では、Google などの検索エンジンに「site:scratch.mit.edu [i](検索クエリ)[/i]」と入力すると、このバグを回避できます。\n\n[url=https://scratch.mit.edu/explore/projects/all]Explore ページは内部的に Scratch の検索エンジンに基づいているため[/url]、これは Explore ページにも影響します。\n\n[small][url=https://scratch.mit.edu/discuss/post/8327640/](English version)[/url][/small]\n\n---\n\n[url=https://scratch.mit.edu/discuss/18/]日本語話者向けの Scratch フォーラムをチェックしてください[/url] :)"},
+                    
         // Suggestions
         
         5: {"name": "Duplicate Suggestion",
             "text": true,
             "hidden": false,
             "editable": true,
-            "data": "This is a duplicate of [url=__EDITABLE__]an earlier suggestion[/url].\n" +
+            "data": "This appears to be a duplicate of [url=__EDITABLE__]an earlier suggestion[/url].\n" +
                     "Please use the linked topic to keep the discussion all in one place :)\n\n" +
                     "For future reference, you can use the [url=https://scratch.mit.edu/discuss/topic/657522/]Suggestions Directory[/url] or [url=https://ocular.jeffalo.net/]Ocular[/url] to check for duplicates."},
                     
@@ -153,13 +166,22 @@
                     "From [url=https://scratch.mit.edu/discuss/topic/343602/]The Official List of Rejected Suggestions[/url]:\n" +
                     "[quote=Za-Chary]View_source_then_find_the_rejected_suggestion_then_paste_it_here[/quote]"},
                     
+        27: {"name": "Dark Mode (Duplicate Suggestion)",
+            "text": true,
+            "hidden": false,
+            "data": "This appears to be a duplicate of two earlier suggestions.\n\n" +
+                    "Website dark mode: https://scratch.mit.edu/discuss/topic/296027/\n" +
+                    "Editor dark mode: https://scratch.mit.edu/discuss/topic/217797/\n\n" +
+                    "Please use the linked topics to keep the discussion all in one place :)\n\n" +
+                    "For future reference, you can use the [url=https://scratch.mit.edu/discuss/topic/657522/]Suggestions Directory[/url] or [url=https://ocular.jeffalo.net/]Ocular[/url] to check for duplicates."},
+                    
         // General
         
         7: {"name": "Duplicate Topic",
             "text": true,
             "hidden": false,
             "editable": true,
-            "data": "This is a duplicate of [url=__EDITABLE__]an earlier topic[/url].\n" +
+            "data": "This appears to be a duplicate of [url=__EDITABLE__]an earlier topic[/url].\n" +
                     "Please use the linked topic to keep the discussion all in one place :)\n\n" +
                     "For future reference, you can use the third-party search engine [url=https://ocular.jeffalo.net/]Ocular[/url] to check for duplicates."},
                     
@@ -183,7 +205,7 @@
             "text": true,
             "hidden": false,
             "editable": true,
-            "data": "This is a duplicate of [url=__EDITABLE__]an earlier topic[/url].\n" +
+            "data": "This appears to be a duplicate of [url=__EDITABLE__]an earlier topic[/url].\n" +
                     "Please use the linked topic to keep the discussion all in one place :)\n\n" +
                     "For future reference, you can use the [url=https://scratch.mit.edu/discuss/topic/776027/]Things I'm Making and Creating Directory[/url] or [url=https://ocular.jeffalo.net/]Ocular[/url] to check for duplicates."},
                     
@@ -191,7 +213,7 @@
             "text": true,
             "hidden": false,
             "editable": true,
-            "data": "This is a duplicate of [url=__EDITABLE__]an earlier topic[/url].\n" +
+            "data": "This appears to be a duplicate of [url=__EDITABLE__]an earlier topic[/url].\n" +
                     "Please use the linked topic to keep the discussion all in one place :)\n\n" +
                     "For future reference, you can use the [url=https://scratch.mit.edu/discuss/topic/735680/]Things I'm Reading and Playing Topic Directory[/url] or [url=https://ocular.jeffalo.net/]Ocular[/url] to check for duplicates."},
                         
