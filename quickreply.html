@@ -17,7 +17,7 @@
     <div id="dataView"></div>
     
     <p style="display: none;" id="textDisplay"><textarea style='width: 50em; height: 10em; max-width: 95%;' id="copier" onclick='this.select()' readonly></textarea>
-    <br><br>The text above is marked with <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal</a>. Feel free to use it however you want to!</p>
+    <span id="mark"><br>The text above is marked with <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal</a>. Feel free to use it however you want to!</span></p>
     <p style="display: none;" id="textEditable">Replace "__EDITABLE__" with: <input type="text" id="editBox" placeholder="Replacement" onchange="replaceEditable(this.value)"></p>
     
     <p style="display: none;" id="rejectedLoading">Fetching rejected suggestions...</p>
@@ -39,7 +39,7 @@
     Update 6 (2025-01-05) - Fixed issues with scraping rejected suggestions, and cleaned up some code<hr>
     Update 7 (2025-01-08) - Fixed title (this page originally shared a title with <a href="/imagif">/imagif</a>)<hr>
     Update 8 (2025-01-11) - Add page metadata<hr>
-    Update 9 (2025-01-15) - Marking responses with CC0 (but not this page)
+    Update 9 (2025-01-15) - Marking responses with CC0 (but not this page)<hr>
     </details></small>
     
     <script>
@@ -92,12 +92,12 @@
             "text": true,
             "hidden": false,
             "editable": false,
-            "data": "[url=https://scratch.mit.edu/discuss/topic/795087/]Scratch's search engine is currently broken[/url], and all we can do is wait for it to be fixed.\n" +
-                    "Unfortunately, no one knows when this will be fixed or how to fix it.\n" +
-                    "This affects everyone on Scratch, so the Scratch Team is aware of the situation.\n\n" +
-                    'For now, you can type "site:scratch.mit.edu [i](search query)[/i]" into a search engine like Google to work around this bug.\n' +
-                    'You should also discuss the bug here: https://scratch.mit.edu/discuss/topic/790866/\n\n' +
-                    "This also affects [url=https://scratch.mit.edu/explore/projects/all]the Explore page[/url], since that's internally based on Scratch's search engine."
+            "data": "[url=https://scratch.mit.edu/discuss/topic/795087/]Scratch's search engine is currently broken[/url]. All we can do is wait for it to be fixed.\n" +
+                    "Unfortunately, no one knows when it will be fixed, how to fix it, or why it's broken.\n" +
+                    "This bug affects everyone on Scratch, [url=https://scratch.mit.edu/discuss/post/8347682/]so the Scratch Team is aware of it[/url]. They are working on a fix.\n\n" +
+                    'To work around this bug, you can type "site:scratch.mit.edu [i](search query)[/i]" into a search engine like Google.\n\n' +
+                    '[i]You should discuss the bug here: https://scratch.mit.edu/discuss/topic/790866/[/i]\n\n' +
+                    "This bug also affects [url=https://scratch.mit.edu/explore/projects/all]the Explore page[/url], since that's internally based on Scratch's search engine."
                     },
                     
         4: {"name": "Search Engine Down (+ User Searching Instructions)",
@@ -118,9 +118,9 @@
             "text": true,
             "hidden": false,
             "editable": false,
-            "data": "Cloud variables are currently broken, and all we can do is wait for them to be fixed.\n" +
-                    "Unfortunately, no one seems to know what's causing issues or when they will be fixed.\n" +
-                    "This affects every Scratcher, so the Scratch Team is aware of the situation."},
+            "data": "Cloud variables are currently broken. All we can do is wait for them to be fixed.\n" +
+                    "Unfortunately, no one knows when they will be fixed, how to fix them, or why they're broken.\n" +
+                    "This affects every Scratcher, [url=https://scratch.mit.edu/discuss/post/8359379/]so the Scratch Team is aware of the situation[/url]. They are working on a fix."},
                     
         11: {"name": "Browser Information Instructions",
             "text": true,
@@ -335,6 +335,7 @@
           // Start handling data
           
           if (data.text) {
+            show(document.querySelector("#mark"));
             show(textDisplay);
             setCopier(data.data.toString());
             
@@ -398,13 +399,14 @@
               
             // Attempt to find rejected suggestion text, and alert if not found
 
-            var quoteDelimiter = (parseFloat(rejectedNumber) > 0) ? ("[b]" + rejectedNumber + " ") : null;
+            var quoteDelimiter = (+rejectedNumber > 0) ? ("[b]" + rejectedNumber + " ") : null;
             try { rejectedQuote = (quoteDelimiter + rejectedData.split(quoteDelimiter)[1].split("[b")[0]).trim(); } // Find text between "[b]X.Y " and "[b"
             catch (e) { console.error(e.message); show(rejectedChooser); alert("That doesn't seem to be a valid suggestion number. Check for typos."); }
               
             if (rejectedQuote != "") {
               hide(textEditable);
               hide(rejectedChooser);
+              hide(document.querySelector("#mark"));
                 
               show(textDisplay);
               setCopier("Unfortunately, this suggestion appears to be rejected.\n\n" +
