@@ -8,38 +8,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="/dark.css" rel="stylesheet" type="text/css" media="all">
+    <style> div { margin: 1em 0 1em; } </style>
   </head>
   
   <body>
     <h1>Personal Scratch forums QuickReply</h1>
     
-    <h2 id="displayName">This webpage requires JavaScript.</h2>
+    <h2 id="displayName">This webpage requires JavaScript to be enabled.</h2>
     <div id="dataView"></div>
     
-    <p style="display: none;" id="textDisplay"><textarea style='width: 50em; height: 10em; max-width: 95%;' id="copier" onclick='this.select()' readonly></textarea>
-    <span id="mark"><br>The text above is marked with <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal</a>. Feel free to use it however you want to!</span></p>
-    <p style="display: none;" id="textEditable">Replace "__EDITABLE__" with: <input type="text" id="editBox" placeholder="Replacement" onchange="replaceEditable(this.value)"></p>
+    <div style="display: none;" id="textDisplay" title="Copy this text">
+      <textarea style='width: 50em; height: 10em; max-width: 95%;' id="copier" onclick='this.select()' readonly></textarea>
+      <div id="mark" class="margin">The text above is marked with <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal</a>.
+      Feel free to use it however you want to!</div>
+    </div>
     
-    <p style="display: none;" id="rejectedLoading">Fetching rejected suggestions...</p>
-    <p style="display: none;" id="rejectedChooser">
-      <a href="https://scratch.mit.edu/discuss/topic/343602/" target="blank">Open The Official List of Rejected Suggestions in a new tab</a>, find the relevant suggestion, then type its number here.
-      <br><br><input type="text" id="rejectedNumber" placeholder="X.Y"> <button onclick='quoteRejected(document.querySelector("#rejectedNumber").value.toString())'>Quote</button>
-      <small> - Clicking "Quote" will make a request to scratch.mit.edu.</small>
-    </p>
+    <div style="display: none;" id="textEditable">
+      <label for="editBox">Replace "__EDITABLE__" with:</label>
+      <input type="text" name="editBox" id="editBox" placeholder="(Replacement text)" onchange="replaceEditable(this.value)">
+    </div>
+    
+    <div style="display: none;" id="rejectedLoading">Fetching rejected suggestions...</div>
+    <div style="display: none;" id="rejectedChooser">
+      <label for="rejectedNumber"><a href="https://scratch.mit.edu/discuss/topic/343602/" target="blank">Open The Official List of Rejected Suggestions in a new tab</a>, find the relevant suggestion, then type its number here:</label>
+      
+      <div><input type="text" name="rejectedNumber" id="rejectedNumber" placeholder="1.2">
+      <button onclick='quoteRejected(document.querySelector("#rejectedNumber").value.toString())'>Quote</button>
+      <small> - Clicking "Quote" will make a request to scratch.mit.edu.</small></div>
+    </div>
+    
+    <div id="toRoot" style="display: none;"><a href="">(Refresh to see other pages)</a></div>
     
     <small>This webpage contains some of my most common responses to <a href="https://scratch.mit.edu/discuss/">Scratch forum topics</a>.<br>
-    The aforementioned responses are <a href="https://creativecommons.org/publicdomain/zero/1.0/">free to use</a>.
-    <br>To view this webpage's source code, <a href='https://github.com/voxalice2/voxalice2.github.io/blob/main/quickreply.html'>click here!</a>
+    The aforementioned responses are <a href="https://creativecommons.org/publicdomain/zero/1.0/">free to use</a>. Feel free to leave feedback on <a href="https://scratch.mit.edu/users/Voxalice/">my Scratch profile</a>.
+    <br><a href='https://github.com/voxalice2/voxalice2.github.io/blob/main/quickreply.html'>Click here to view this webpage's source code!</a>
     <br><br><details><summary>Updates</summary><hr>
     Update 1 (2024-12-20) - Original version<hr>
     Update 2 (2024-12-21) - Fixed textboxes<hr>
-    Update 3 (2024-12-22) - Added invisible items, <a onclick='displayView("test")'>test items</a>, and a JavaScript-disabled warning<hr>
+    Update 3 (2024-12-22) - Added invisible items, <a href="#test">test items</a>, and a JavaScript-disabled warning<hr>
     Update 4 (2024-12-23) - Added editable items<hr>
     Update 5 (2025-01-01) - Added function items, including a built-in quoter for The Official List of Rejected Suggestions<hr>
     Update 6 (2025-01-05) - Fixed issues with scraping rejected suggestions, and cleaned up some code<hr>
     Update 7 (2025-01-08) - Fixed title (this page originally shared a title with <a href="/imagif">/imagif</a>)<hr>
     Update 8 (2025-01-11) - Add page metadata<hr>
-    Update 9 (2025-01-15) - Marking responses with CC0 (but not this page)
+    Update 9 (2025-01-15) - Marking responses with CC0 (but not this page)<hr>
+    Update 10 (2025-03-04) - Improved HTML semantics, <a href="#10">added item hash links</a>
     </details></small>
     
     <script>
@@ -84,7 +97,7 @@
         25: {"name": "Questions about Scratch",
             "text": false,
             "hidden": false,
-            "data": [26]},
+            "data": [26, 29]},
             
         // Bugs and Glitches
             
@@ -95,8 +108,8 @@
             "data": "[url=https://scratch.mit.edu/discuss/topic/790866/]Scratch's search engine is currently broken[/url]. All we can do is wait for it to be fixed.\n" +
                     "Unfortunately, no one knows when it will be fixed, how to fix it, or why it's broken.\n" +
                     "This bug affects everyone on Scratch, [url=https://scratch.mit.edu/discuss/post/8347682/]so the Scratch Team is aware of it[/url]. They are [url=https://scratch.mit.edu/discuss/post/8364515/]working on a fix[/url].\n\n" +
-                    //'To work around this bug, you can type "site:scratch.mit.edu [i](search query)[/i]" into a search engine like Google.\n\n' +
-                    "If you have any critical information about this bug [i]that hasn't already been shared[/i], you can use the Contact Us link near the bottom of the page to share it with the Scratch Team directly.\n\n" +
+                    // 'To work around this bug, you can type "site:scratch.mit.edu [i](search query)[/i]" into a search engine like Google.\n\n' +
+                    "If you have any important information [i]that hasn't already been shared[/i] about this bug, you can use the Contact Us link near the bottom of the page to share it with the Scratch Team directly.\n\n" +
                     "This bug also affects [url=https://scratch.mit.edu/explore/projects/all]the Explore page[/url], since that's internally based on Scratch's search engine."
                     },
                     
@@ -136,14 +149,16 @@
                     "(If you don't have a keyboard, look up how to select everything on the page and try that instead.)\n\n" +
                     'That should make a blue box appear near the bottom-right corner of the page, which you can use to progress.\n\n' +
                     '[img]https://u.cubeupload.com/rosics/Screenshot2025010420.png[/img][small]Screenshot taken by [url=https://scratch.mit.edu/users/Rosics]@Rosics[/url][/small]\n\n' +
-                    "If that doesn't work, just keep clicking in the bottom-right corner of the page.\n\n" +
+                    "If that doesn't work, just keep clicking near the bottom-right corner of the page.\n\n" +
                     'Once you press the "I Agree" button, you [i]will[/i] be a Scratcher, even if nothing seems to happen.'},
                     
         28: {"name": "Search Engine Down (Japanese)",
             "text": true,
             "hidden": false,
             "editable": false,
-            "data": "この投稿は Google 翻訳を使用して翻訳されました。間違いがあればお知らせください。\n\n---\n\n[url=https://scratch.mit.edu/discuss/topic/790866/]Scratch の検索エンジンは現在壊れています[/url]。私たちにできることは修正されるのを待つことだけです。\n残念ながら、何が問題を引き起こしているのか、いつ修正されるのかは誰も分からないようです。\nこれは Scratch の全員に影響するため、Scratch チームは状況を認識しています。\n\n現時点では、Google などの検索エンジンに「site:scratch.mit.edu [i](検索クエリ)[/i]」と入力すると、このバグを回避できます。\n\n[url=https://scratch.mit.edu/explore/projects/all]Explore ページは内部的に Scratch の検索エンジンに基づいているため[/url]、これは Explore ページにも影響します。\n\n[small][url=https://scratch.mit.edu/discuss/post/8327640/](English version)[/url][/small]\n\n---\n\n[url=https://scratch.mit.edu/discuss/18/]日本語話者向けの Scratch フォーラムをチェックしてください[/url] :)"},
+            "data": "この投稿は Google 翻訳を使用して翻訳されました。間違いがあればお知らせください。\n\n---\n\n" +
+                    "Scratch の検索エンジンは現在壊れています。私たちにできるのは、それが修正されるのを待つことだけです。\n残念ながら、いつ修正されるのか、どのように修正するのか、なぜ壊れているのかは誰にもわかりません。\nこのバグは Scratch の全員に影響するため、Scratch チームはそれを認識しています。彼らは 修正に取り組んでいます。\n\nこのバグについて まだ共有されていない重要な情報がある場合は、https://scratch.mit.edu/contact-us/ を使用して Scratch チームに直接共有できます。\n\nこのバグは、Explore ページにも影響します。これは、このページが内部的に Scratch の検索エンジンに基づいているためです。" +
+                    "\n\n[small][url=https://scratch.mit.edu/discuss/post/8365086/](English version)[/url][/small]\n\n---\n\n[url=https://scratch.mit.edu/discuss/18/]日本語話者向けの Scratch フォーラムをチェックしてください[/url] :)"},
                     
         // Suggestions
         
@@ -229,6 +244,11 @@
                     "Scratch 4.0 is supposed to start development in 2025, but its release date is still a mystery.\n\n" +
                     "Let's wait for more information on Scratch 4.0 before trying to find out when it will release."},
                     
+        29: {"name": "Blood Guideline",
+            "text": true,
+            "hidden": false,
+            "data": "[url=https://scratch.mit.edu/discuss/post/6934705]The use of blood should be avoided on Scratch.[/url][quote=Paddle2See]No blood is the best.  Anything else and it's up to the moderator's judgement as to what is “too much”.  Context is also important.  Is the blood the result of violence?  Or is it just a nosebleed or a scraped knee from a fall?  That can influence the moderator as well.[/quote]"},
+                    
         // Testing
         
         "test": {"name": "> TESTING <",
@@ -277,6 +297,7 @@
       var textDisplay = document.querySelector("#textDisplay");
       var textEditable = document.querySelector("#textEditable");
       var copier = document.querySelector("#copier");
+      var toRoot = document.querySelector("#toRoot");
       
       var rejectedLoading = document.querySelector("#rejectedLoading");
       var rejectedChooser = document.querySelector("#rejectedChooser");
@@ -284,6 +305,8 @@
       
       var viewHistory = [];
       var viewing;
+      
+      var hashChanging = false;
       
       function show(element) { element.style.display = "block"; }
       function hide(element) { element.style.display = "none"; }
@@ -310,7 +333,9 @@
         viewHistory.pop(); displayView(viewHistory.pop());
       }
       
-      function displayView(id) {
+      function displayView(id, changeHash = true, changeHistory = true) {
+        if (changeHash) { hashChanging = true; location.hash = id; }
+        
         if (id == undefined) { id = 0; }
         viewing = id;
         var data = viewData[id];
@@ -323,7 +348,7 @@
           
           // Append "Back" link and hide everything (except for the name)
           
-          viewHistory.push(id);
+          if (changeHistory) { viewHistory.push(id); }
           if (viewHistory.length > 1) { appendLink(0, "<= Back to previous page <=", true); }
           
           hide(textEditable);
@@ -354,15 +379,29 @@
               }
             }
           }
-        }
+        } else { displayView(0); }
       }
       
       function replaceEditable(edit) {
         if (edit == "") { edit = "__EDITABLE__"; }
-        setCopier(viewData[viewing].data.toString().replace("__EDITABLE__", edit));
+        setCopier(viewData[viewing].data.replace("__EDITABLE__", edit));
       }
       
-      displayView(0, false);
+      window.addEventListener("hashchange", function(ev) {
+        var newID = location.hash.slice(1);
+        
+        if (!hashChanging && viewing != newID) {
+          displayView(newID || 0, false);
+        }
+        
+        hashChanging = false;
+      });
+      
+      if (location.hash.slice(1) != "") {
+        toRoot.style.display = "block";
+      }
+      
+      displayView(location.hash.slice(1) || 0, false);
       
       // Rejected Suggestions code starts here
       
