@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>the Scratch citation station</title>
+    <link href="/dark.css" rel="stylesheet" type="text/css" media="all">
+    <style>div{margin:1em 0}</style>
+  </head>
+  
+  <body>
+    <h1>Quote and reference Scratch forum posts</h1>
+    
+    <div id="start">
+      <label for="linkInput">Paste a link to a Scratch forum post:</label>
+      <input type="text" placeholder="https://scratch.mit.edu/discuss/post/28" id="linkInput" name="linkInput">
+      <button onclick="generate()">Generate references</button>
+    </div>
+    
+    <div id="loading" style="display:none">
+      <p>Loading...</p>
+    </div>
+    
+    <div id="end" style="display:none">
+      <p><label for="postNum">Post number:</label> <input id="postNum" name="postNum" readonly onclick="this.select()"></p>
+      <p><label for="postNumLink">Post number with link:</label> <input id="postNumLink" name="postNumLink" readonly onclick="this.select()"></p>
+      
+      <p><label for="fullQuote">Full post quote:</label> <textarea id="fullQuote" name="fullQuote" readonly onclick="this.select()"></textarea></p>
+      <p><label for="fullQuoteLink">Full post quote with link:</label> <textarea id="fullQuoteLink" name="fullQuoteLink" readonly onclick="this.select()"></textarea></p>
+      
+      <div><a href>Click here to use this tool again.</a></div>
+    </div>
+    
+    <small>This webpage lets you automatically quote and reference <a href="https://scratch.mit.edu/discuss/">Scratch forum posts</a>, even on closed topics.
+    <br>To view this webpage's source code, <a href='https://github.com/voxalice2/voxalice2.github.io/blob/main/ref.html'>click here!</a>
+    <br><br><details><summary>Updates</summary><hr>
+    Update 1 (2025-03-19) - Original version
+    </details></small>
+    
+    <script>
+      'use strict';
+      
+      var pages = {};
+      pages.start = document.querySelector("#start");
+      pages.loading = document.querySelector("#loading");
+      pages.end = document.querySelector("#end");
+      
+      var inputs = {};
+      inputs.link = document.querySelector("#linkInput")
+      
+      var outputs = {};
+      outputs.postNum = document.querySelector("#postNum");
+      outputs.postNumLink = document.querySelector("#postNumLink");
+      outputs.fullQuote = document.querySelector("#fullQuote");
+      outputs.fullQuoteLink = document.querySelector("#fullQuoteLink");
+      
+      async function requestPost(postURL) {
+        var sourceAdd = "source";
+        if (postURL.lastIndexOf("/") != postURL.length - 1) { sourceAdd = "/source"; }
+        
+        var postSourceRequest = await fetch(postURL + sourceAdd);
+        var postRequest = await fetch(postURL);
+        
+        var splitPostURL = postURL.split("/")
+        return {"url": postURL, "data": await postSourceRequest.text(), "html": await postRequest.text(), "id": splitPostURL[splitPostURL.indexOf("post") + 1]};
+      }
+      
+      async function generate() {
+        if (inputs.link.value.indexOf("scratch.mit.edu/discuss/post/") > 1) {
+          pages.start.style.display = "none";
+          pages.loading.style.display = "block";
+          
+          // Setup
+          
+          var postInfo = await requestPost(inputs.link.value);
+           
+          var postDocument = new DOMParser().parseFromString(postInfo.html, "text/html");
+          var postHTML = postDocument.querySelector("#p" + postInfo.id);
+          
+          // Find post number, then construct BBCode link with it
+          
+          outputs.postNum.value = postHTML.querySelector(".conr").innerText;
+          
+          outputs.postNumLink.value = `[small]([url=${postInfo.url}]${outputs.postNum.value}[/url])[/small]`;
+          
+          // Construct BBCode quotes
+          
+          var postAuthor = postHTML.querySelector(".username").innerText;
+          
+          outputs.fullQuote.value = `[quote=${postAuthor}]${postInfo.data}[/quote]`;
+          outputs.fullQuoteLink.value = `[quote=${postAuthor}]${outputs.postNumLink.value}\n${postInfo.data}[/quote]`;
+          
+          pages.loading.style.display = "none";
+          pages.end.style.display = "block";
+          
+          console.log(postInfo)
+        } else { alert("Paste a valid link to a Scratch forum post."); }
+      }
+    </script>
+    
+    <script src="/stable.js"></script>
+  </body>
+</html>
