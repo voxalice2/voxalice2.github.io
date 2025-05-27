@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>the petpage makin' station</title>
+    <link href="/dark.css" rel="stylesheet" type="text/css" media="all">
+    <style>.mg{margin:1em 0}textarea{width:55em;height:10em}</style>
+  </head>
+  
+  <body>
+    <h1>Automatically build multi-page Neopets petpages</h1>
+    
+    <div><h2>CSS</h2><textarea style="height:8em;" id="globalStyle">body            { font-family: sans-serif; }
+.PAGE_CONTAINER { background: #dfd;        } /* applies to every page */
+.PAGE_CONTENTS  { background: #ddd;        } /* applies to contents of every page */
+
+#page_1         { background: #000;        } /* selects page 1's container */
+#page_1_content { background: #999;        } /* selects page 1's contents  */</textarea></div>
+
+    <div id="allPages" class="mg"></div>
+    <div id="buttonRow"><button onclick="addPage()">+ Add new page</button> <button onclick="removePage()">- Remove last page</button></div>
+    
+    <div style="display: none" id="pageTemplate"><h2>Page N</h2><textarea>CONTENT</textarea><br><label>Page ID: <input type="text" placeholder="page_N"></label></div>
+    
+    <div class="mg"><button onclick="buildPages()">> Build and copy to clipboard</button> <button onclick="importBuiltCode()">> Import built HTML into editor</button></div>
+    
+    <p>To save the page, click "Preview Changes", go to the anchor "#SAVE_CHANGES" using your browser's address bar, then press Tab.
+    <br><br>After that, the "Save Changes" button should be highlighted, and you can press Enter to save.</p>
+    
+    <script>
+      var allPages = document.querySelector("#allPages");
+      var pageTemplate = document.querySelector("#pageTemplate");
+      var globalStyle = document.querySelector("#globalStyle");
+      
+      var pages = [{"content": '<a href="#page_1"> Hello world! </a>', "anchor": "page_0"},
+                   {"content": '<a href="#page_0"> Page numbers are counted from 0 </a>', "anchor": "page_1"}];
+                   
+      var defaultStyle = '.PAGE_CONTAINER{width:100%;height:100%}.PAGE_CONTENTS{overflow:auto;}body{margin:0;overflow:hidden}#END_BUILTIN_CSS { }';
+      
+      function addPageToDisplay(pageID) {
+        var newDisplay = pageTemplate.cloneNode(true);
+        
+        var pageHeading = newDisplay.childNodes[0];
+        var pageContent = newDisplay.childNodes[1];
+        var anchorInput = newDisplay.childNodes[3].childNodes[1];
+        
+        newDisplay.removeAttribute("id");
+        newDisplay.removeAttribute("style");
+        
+        pageHeading.textContent = "Page " + pageID;
+        pageContent.textContent = pages[pageID].content;
+        pageContent.setAttribute("data-page-id", pageID);
+        
+        // When textarea is modified, change content of page
+        
+        pageContent.addEventListener("change", function (e) {
+          pages[this.attributes['data-page-id'].value].content = this.value;
+        });
+        
+        anchorInput.value = pages[pageID].anchor;
+        anchorInput.setAttribute("data-page-id", pageID);
+        
+        // When anchor input is modified, change anchor of page
+        
+        anchorInput.addEventListener("change", function (e) {
+          pages[this.attributes['data-page-id'].value].anchor = this.value;
+        });
+        
+        allPages.appendChild(newDisplay);
+      }
+      
+      function displayPages() {
+        allPages.textContent = "";
+        
+        for (let pageIndex = 0; pageIndex < pages.length; pageIndex++) {
+          addPageToDisplay(pageIndex);
+        }
+      }
+      
+      function addPage() { pages.push({"content": "New page!", "anchor": "page_" + pages.length}); displayPages(); }
+      function removePage() { pages.pop(); displayPages(); }
+      
+      displayPages();
+      
+      function buildPages() {
+        var cssWithoutComments = globalStyle.value.replace(/\/\*[^*]*\*\//gs, "");
+        var combined = `<style>${defaultStyle}${cssWithoutComments}</style><body>`;
+        
+        for (let pageIndex = 0; pageIndex < pages.length; pageIndex++) {
+          combined += `<div class="PAGE_CONTAINER" id="${pages[pageIndex].anchor}"><div class="PAGE_CONTENTS" id="page_${pageIndex}_content">${pages[pageIndex].content}</div></div>`;
+        }
+        
+        combined += '</body><br id="SAVE_CHANGES">';
+        
+        navigator.clipboard.writeText(combined);
+      }
+      
+      function importBuiltCode() {
+        var builtCode = prompt("Paste code built with this editor into the text box.");
+        
+        if (builtCode.length > 5) {
+          var builtParser = new DOMParser();
+          var builtParsed = builtParser.parseFromString(builtCode, "text/html");
+          
+          globalStyle.value = builtParsed.querySelector("style").textContent.replace(/.*\#END_BUILTIN_CSS {.*?}/s, ''); // Import CSS from built code, removing automatically added CSS
+          
+          pages = [];
+          builtPages = builtParsed.querySelectorAll(".PAGE_CONTAINER");
+          builtPages.forEach((page, index) => (pages.push({"content": page.firstChild.innerHTML, "anchor": page.id}))); // Import contents of pages from built code
+        }
+        
+        displayPages();
+      }
+    </script>
+    
+    <small>This webpage makes it easier to construct <a href='http://www.neopets.com/refer.phtml?username=voxalice'>Neopets</a> petpages with the illusion of having multiple pages.
+    <br>To view this webpage's source code, <a href='https://github.com/voxalice2/voxalice2.github.io/blob/main/petpage.html'>click here!</a>
+    <br><br><details><summary>Updates</summary><hr>
+    Update 1 (2025-05-27) - Original version
+    </details></small>
+    
+    <script src="stable.js"></script>
+  </body>
+</html>
