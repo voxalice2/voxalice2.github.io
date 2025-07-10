@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>the HTML integration station</title>
+    <link href="/dark.css" rel="stylesheet" type="text/css" media="all">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha512-XMVd28F1oH/O71fzwBnV7HucLxVwtxf26XV8P4wPk26EDxuGZ91N8bsOttmnomcCD3CS5ZMRL50H0GgOHvegtg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js" integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>#previewImage {border-radius: 0.5rem; width: 480px; height: 360px; background: #fff; color: #000; border: 1px solid #444;} iframe {visibility: hidden; height: 0px;}</style>
+  </head>
+  
+  <body>
+    <h1>Put static XHTML into sprite for Scratch project</h1>
+    
+    <p><textarea style='width: 50em; height: 10em; max-width: 95%;' id="html"><style> body { font-family: sans-serif; padding: 5px; } </style>
+
+<h1>Lorem ipsum</h1>
+<p>Placeholder text written in Latin:<hr />Lorem ipsum dolor sit amet, consectetur adisciping elit.</p>
+
+&lt;!-- Note: Scratch renders SVGs as static images, so interactivity and animations don't work. You'll have to implement those yourself. --></textarea></p>
+
+    <div id="preview"><img id="previewImage" src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0ODAiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCwwLDQ4MCwzNTAiPjxnIGRhdGEtcGFwZXItZGF0YT0ieyZxdW90O2lzUGFpbnRpbmdMYXllciZxdW90Ozp0cnVlfSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJub256ZXJvIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIHN0cm9rZS1saW5lam9pbj0ibWl0ZXIiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLWRhc2hhcnJheT0iIiBzdHJva2UtZGFzaG9mZnNldD0iMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSJub3JtYWwiIGZvbnQtc2l6ZT0iMTIiIHRleHQtYW5jaG9yPSJzdGFydCIgc3R5bGU9Im1peC1ibGVuZC1tb2RlOiBub3JtYWwiLz48Zm9yZWlnbk9iamVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIj48Ym9keSB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94aHRtbCI+PGRpdj48c3R5bGU+IGJvZHkgeyBmb250LWZhbWlseTogc2Fucy1zZXJpZjsgcGFkZGluZzogNXB4OyB9IDwvc3R5bGU+Cgo8aDE+TG9yZW0gaXBzdW08L2gxPgo8cD5QbGFjZWhvbGRlciB0ZXh0IHdyaXR0ZW4gaW4gTGF0aW46PGhyIC8+TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNlY3RldHVyIGFkaXNjaXBpbmcgZWxpdC48L3A+Cgo8IS0tIE5vdGU6IFNjcmF0Y2ggcmVuZGVycyBTVkdzIGFzIHN0YXRpYyBpbWFnZXMsIHNvIGludGVyYWN0aXZpdHkgYW5kIGFuaW1hdGlvbnMgZG9uJ3Qgd29yay4gLS0+PC9kaXY+PC9ib2R5PjwvZm9yZWlnbk9iamVjdD48L3N2Zz4=" alt="A preview of the exported sprite."></div>
+    
+    <p><label for="viewHeight">Height of exported image in pixels: </label>
+    <input type="number" id="viewHeight" name="viewHeight" placeholder="Image height in pixels" value="1000"></p>
+    
+    <p><button onclick="previewImage()">Preview</button> <button onclick="combine();">Export</button> <button onclick="suggestHeight()">Suggest height</button> <iframe id="heightGetter"></iframe></p>
+    
+    <small><a href="https://stuk.github.io/jszip/">JSZip</a> is used to write .sprite3 files,
+    and <a href="https://github.com/eligrey/FileSaver.js/">FileSaver.js</a> is used to save the output .sprite3 file.
+    <br>To view this webpage's source code, <a href='https://github.com/voxalice2/voxalice2.github.io/blob/main/svg.html'>click here!</a>
+    <br><br><details><summary>Updates</summary><hr>
+    Update 1 (2025-07-10) - Original version
+    </details></small>
+    
+    <script>
+      // Note: the projectZips name may be a bit misleading, since we're working with .sprite3 instead of .sb3.
+      
+      var newSprite = new JSZip();
+      
+      function generateSvg(viewHeight) {
+        var html_content = document.querySelector("#html").value;
+        
+        return `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" width="480" height="100%" viewBox="0,0,480,${viewHeight}"><g data-paper-data="{&quot;isPaintingLayer&quot;:true}" fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="sans-serif" font-weight="normal" font-size="12" text-anchor="start" style="mix-blend-mode: normal"/><foreignObject x="0" y="0" width="100%" height="100%"><body xmlns="http://www.w3.org/1999/xhtml"><div>${html_content}</div></body></foreignObject></svg>`;
+      }
+      
+      async function getInfo() {
+        // Construct project
+        
+        var spriteJSON = '{"isStage":false,"name":"scroll","variables":{},"lists":{},"broadcasts":{},"blocks":{"r":{"opcode":"event_whenflagclicked","next":"t","parent":null,"inputs":{},"fields":{},"shadow":false,"topLevel":true,"x":48,"y":64},"t":{"opcode":"motion_sety","next":null,"parent":"r","inputs":{"Y":[1,[4,"180"]]},"fields":{},"shadow":false,"topLevel":false},"y":{"opcode":"event_whenkeypressed","next":"w","parent":null,"inputs":{},"fields":{"KEY_OPTION":["up arrow",null]},"shadow":false,"topLevel":true,"x":48,"y":240},"w":{"opcode":"motion_changeyby","next":"q","parent":"y","inputs":{"DY":[1,[4,"-11"]]},"fields":{},"shadow":false,"topLevel":false},"q":{"opcode":"control_if","next":null,"parent":"w","inputs":{"CONDITION":[2,"e"],"SUBSTACK":[2,"o"]},"fields":{},"shadow":false,"topLevel":false},"e":{"opcode":"operator_lt","next":null,"parent":"q","inputs":{"OPERAND1":[3,"p",[10,""]],"OPERAND2":[1,[10,"180"]]},"fields":{},"shadow":false,"topLevel":false},"p":{"opcode":"motion_yposition","next":null,"parent":"e","inputs":{},"fields":{},"shadow":false,"topLevel":false},"o":{"opcode":"motion_sety","next":null,"parent":"q","inputs":{"Y":[1,[4,"180"]]},"fields":{},"shadow":false,"topLevel":false},"u":{"opcode":"event_whenkeypressed","next":"i","parent":null,"inputs":{},"fields":{"KEY_OPTION":["down arrow",null]},"shadow":false,"topLevel":true,"x":48,"y":552},"i":{"opcode":"motion_changeyby","next":null,"parent":"u","inputs":{"DY":[1,[4,"11"]]},"fields":{},"shadow":false,"topLevel":false}},"comments":{},"currentCostume":0,"costumes":[{"name":"","bitmapResolution":1,"dataFormat":"svg","assetId":"45b9cfb67da1a1291a3aec6e8195f293","md5ext":"45b9cfb67da1a1291a3aec6e8195f293.svg","rotationCenterX":0,"rotationCenterY":0}],"sounds":[],"volume":100,"visible":true,"x":-240,"y":180,"size":100,"direction":90,"draggable":false,"rotationStyle":"all around"}';
+        
+        newSprite.file('sprite.json', spriteJSON);
+        
+        var name_of_visible_costume = JSON.parse(spriteJSON).costumes[0].md5ext;
+        
+        newSprite.file(name_of_visible_costume, generateSvg(parseInt(document.querySelector("#viewHeight").value) || 1000)); // Save generated SVG to newSprite
+          
+        return true;
+      }
+      
+      function combine() {
+        combinedSprite = newSprite;
+        
+        getInfo().then(function() {
+          combinedSprite.generateAsync({type: "blob"}).then(function (blob) {
+            saveAs(blob, "xhtml_sprite.sprite3");
+          });
+        });
+      }
+      
+      function previewImage() {
+        var generatedPreview = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(generateSvg(350))));
+        document.querySelector("#previewImage").setAttribute('src', generatedPreview);
+      }
+      
+      function suggestHeight() {
+        // Approximate minimum height of contents of SVG
+        window.frames[0].document.body.innerHTML = generateSvg(1);
+        var svgBox = window.frames[0].document.querySelector("svg foreignObject div").getBoundingClientRect();
+        document.querySelector("#viewHeight").value = Math.ceil(svgBox.bottom + svgBox.top + 15);
+        document.querySelector("#viewHeight").focus();
+      }
+    </script>
+    
+    <script src="/stable.js"></script>
+  </body>
+</html>
