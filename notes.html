@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>the note takin' station</title>
+		<link href="./dark.css" rel="stylesheet" type="text/css" media="all">
+	</head>
+	
+	<body>
+		<h1>View note backups from "Another notes app"</h1>
+		
+		<p id="intro"><label for="project1">autosave_notes.json: </label>
+		<input type='file' id="backup" name="backup" accept=".json"> <button onclick='loadBackup().then(updateApp);'>go!</button></p>
+
+		<div id="app" style="background: #111; padding: 15px; display: none;"></div><br>
+		
+		<small>This webpage opens note backup JSON files exported from "Another notes app".
+		<br>To view this webpage's source code, <a href='https://github.com/voxalice2/voxalice2.github.io/blob/main/notes.html'>click here!</a>
+		<br><br><details><summary>Updates</summary><hr>
+		Update 1 (2026-05-04) - Original version
+		</details></small>
+		
+		<script>
+			var introScreen = document.getElementById("intro");
+			var appScreen = document.getElementById("app");
+
+			var nextAppFunction;
+			var introFunction = [listNotes, [], "All notes:"];
+
+			var backupContent;
+			var notes;
+
+			async function loadBackup() {
+				backupContent = JSON.parse(await document.getElementById("backup").files[0].text());
+				notes = backupContent.notes;
+				console.log(backupContent);
+
+				introScreen.style.display = "none";
+				appScreen.style.display = "block";
+
+				nextAppFunction = introFunction;
+
+				return true;
+			}
+
+			function updateApp() {
+				var screenTitle = document.createElement("h2");
+				screenTitle.innerText = nextAppFunction[2];
+
+				appScreen.replaceChildren();
+				appScreen.append(screenTitle);
+				nextAppFunction[0].apply(this, nextAppFunction[1])
+			}
+
+			function linkButton(appFunction, name) {
+				var linkElement = document.createElement("button");
+				linkElement.innerText = name;
+
+				linkElement.onclick = function() {
+					nextAppFunction = appFunction;
+					updateApp();
+				};
+
+				return linkElement;
+			}
+
+			function appendLink(appFunction, name) {
+				var linkContainer = document.createElement("p");
+				linkContainer.append(linkButton(appFunction, name));
+				appScreen.append(linkContainer);
+			}
+			
+			function listNotes() {
+				for (const noteId in notes) {
+					note = notes[noteId];
+					noteTitle = `#${noteId}: ${note.title}`;
+
+					appendLink([viewNote, [noteId], "Note " + noteTitle], noteTitle);
+				}
+			}
+
+			function viewNote(id) {
+				currentNote = notes[id];
+
+				// Dates
+				var added = new Date(currentNote.added).toLocaleString();
+				var modified = new Date(currentNote.modified).toLocaleString();
+
+				var metadataText = document.createElement("p");
+				metadataText.innerText = `Added ${added}, last modified ${modified}`;
+				appScreen.append(metadataText);
+
+				// Content
+				var noteTextbox = document.createElement("textarea");
+				noteTextbox.textContent = currentNote.content.toString();
+
+				noteTextbox.title = "Note content";
+				noteTextbox.style.width = "50em";
+				noteTextbox.style.height = "50em";
+				noteTextbox.style.maxWidth = "95%";
+				noteTextbox.readOnly = true;
+				
+				appendLink(introFunction, "Back to note list");
+				appScreen.append(noteTextbox);
+				
+				// Labels
+				var labelList = document.createElement("p");
+				labelList.innerText = "Labels: ";
+				
+				try {
+					for (const labelId of currentNote.labels) {
+						labelName = backupContent.labels[labelId].name;
+						labelList.append(linkButton([listLabelNotes, [labelId], `Notes with label #${labelId}: ${labelName}`], labelName));
+					}
+					appScreen.append(labelList);
+				} catch {}
+			}
+
+			function listLabelNotes(labelId) {
+				for (const noteId in notes) {
+					note = notes[noteId];
+					noteTitle = `#${noteId}: ${note.title}`;
+
+					try {
+						if (note.labels.includes(labelId)) {
+							appendLink([viewNote, [noteId], "Note " + noteTitle], noteTitle);
+						}
+					} catch {}
+				}
+			}
+		</script>
+		
+		<script src="/stable.js"></script>
+	</body>
+</html>
