@@ -1,1 +1,1 @@
-document.body.insertAdjacentHTML("afterbegin", "<span style='font-size: 200%'>Note: the 'github.io' version of this webpage is no longer being updated.<br><a href='https://voxalice.codeberg.page'>Click here for updated webpages.</a>")
+document.body.insertAdjacentHTML("afterbegin", "<span style='font-size: 200%'>Note: the 'github.io' version of this webpage is no longer being updated.<br><a onclick='location.host=\"voxalice.codeberg.page\"'>Click here for the updated version of this webpage.</a>")
